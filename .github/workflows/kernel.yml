@@ -305,6 +305,31 @@ jobs:
           make ${{ env.ARGS }}
           # tree ${{ env.OUT_DIR }}
 
+      - name: 📦 Package kernel.img
+        working-directory: ${{ env.KERNEL_NAME }}
+        env:
+          ARCH: ${{ steps.generate-args.outputs.ARCH }}
+        run: |
+          python3 kernel/kernel/tools/mkbootimg \
+            --kernel ${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image.gz \
+            --ramdisk /dev/null \
+            --base 0x00478000 \
+            --kernel_offset 0x00008000 \
+            --ramdisk_offset 0x07b88000 \
+            --second_offset 0x00e88000 \
+            --tags_offset 0x07988000 \
+            --pagesize 2048 \
+            --cmdline "loglevel=4 coherent_pool=512K page_tracker=on slub_min_objects=12 unmovable_isolate1=2:192M,3:224M,4:256M printktimer=0xfff0a000,0x534,0x538 androidboot.selinux=permissive buildvariant=user" \
+            -o ${{ env.OUT_DIR }}/kernel.img
+
+      - name: 💚 Upload kernel.img
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.KERNEL_NAME }}-${{ env.BUILD_DATE }}-kernel.img
+          path: ${{ env.OUT_DIR }}/kernel.img
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: 💛 Upload Image
         uses: actions/upload-artifact@v4
         env:
