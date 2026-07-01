@@ -1,0 +1,9 @@
+{
+  "device": "huawei_hi6250",
+  "kernel_repository": "lasania32198/android_kernel_huawei_hi6250-9",
+  "kernel_url": "https://github.com/lasania32198/android_kernel_huawei_hi6250-9",
+  "configs": {
+    "arch": "arm64",
+    "defconfig": "merge_hi6250_defconfig"
+  }
+}
