@@ -2,7 +2,7 @@
     "kernelSource": {
         "name": "Huawei Hi6250",
         "repo": "https://github.com/lasania32198/android_kernel_huawei_hi6250-9",
-        "branch": "main",
+        "branch": "lineage-20",
         "device": "hi6250",
         "defconfig": "merge_hi6250_defconfig"
     },
